@@ -16,6 +16,14 @@ pipeline {
                 }
             }
         }
+        stage('Docker Login & Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    sh "docker push suvratam/staragileprojectfinance:v1"
+                }
+            }
+        }
          
         
      stage('Deploy') {
